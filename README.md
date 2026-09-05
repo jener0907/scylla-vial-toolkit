@@ -4,6 +4,12 @@ BastardKB Scylla용 Vial 펌웨어 포트와 Windows 설정 앱입니다.
 
 현재 정상 동작하는 `splinktegrated_rev1` 하드웨어 설정을 유지하면서, 키맵·레이어·매크로를 쉽게 수정할 수 있도록 구성했습니다.
 
+## 프로젝트 개요
+
+BastardKB Scylla의 split 펌웨어는 정상 동작하지만, 브라우저 기반 설정 도구만으로는 키맵·레이어·매크로를 관리하고 저장 상태를 확인하기가 불편했습니다.
+
+이 프로젝트는 기존 `splinktegrated_rev1`의 matrix와 split 통신을 그대로 유지하면서, Windows에서 키맵과 매크로를 직접 설정할 수 있는 가벼운 앱과 재현 가능한 펌웨어 소스를 함께 제공하기 위해 시작했습니다. Release에서는 바로 실행 가능한 앱과 UF2를 받고, 저장소에서는 누구나 소스를 수정·빌드할 수 있습니다.
+
 ## 구성
 
 - [`app/`](app/) — Windows 10/11용 portable 설정 앱 소스
