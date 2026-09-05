@@ -1,0 +1,34 @@
+{
+    "keyboard_name": "Scylla Splinktegrated rev1",
+    "usb": {
+        "device_version": "2.0.0"
+    },
+    "features": {
+        "bootmagic": true,
+        "mousekey": true,
+        "extrakey": true,
+        "rgb_matrix": false,
+        "rgblight": false
+    },
+    "matrix_pins": {
+        "cols": ["GP27", "GP28", "GP21", "GP6", "GP7", "GP8"],
+        "rows": ["GP29", "GP26", "GP5", "GP4", "GP9"]
+    },
+    "diode_direction": "ROW2COL",
+    "split": {
+        "enabled": true,
+        "bootmagic": {
+            "matrix": [5, 0]
+        },
+        "transport": {
+            "sync": {
+                "matrix_state": true
+            }
+        },
+        "serial": {
+            "pin": "GP1"
+        }
+    },
+    "processor": "RP2040",
+    "bootloader": "rp2040"
+}

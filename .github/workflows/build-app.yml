@@ -1,0 +1,56 @@
+name: Build Windows app
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore
+        run: dotnet restore app/ScyllaConfigurator.csproj
+
+      - name: Validate 58-key layout
+        shell: pwsh
+        run: |
+          $keys = Get-Content app/ScyllaLayout.json -Raw | ConvertFrom-Json
+          if ($keys.Count -ne 58) { throw "Expected 58 layout keys, found $($keys.Count)" }
+          $seen = @{}
+          foreach ($key in $keys) {
+            if ($key.row -lt 0 -or $key.row -gt 9 -or $key.col -lt 0 -or $key.col -gt 5) {
+              throw "Layout coordinate out of range: ($($key.row),$($key.col))"
+            }
+            $id = "$($key.row),$($key.col)"
+            if ($seen.ContainsKey($id)) { throw "Duplicate layout coordinate: $id" }
+            $seen[$id] = $true
+          }
+
+      - name: Build
+        run: dotnet build app/ScyllaConfigurator.csproj -c Release --no-restore
+
+      - name: Publish portable EXE
+        run: >-
+          dotnet publish app/ScyllaConfigurator.csproj -c Release -r win-x64
+          --self-contained true -p:PublishSingleFile=true
+          -p:IncludeNativeLibrariesForSelfExtract=true -o release/win-x64
+
+      - name: Upload app artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ScyllaConfigurator-win-x64
+          path: release/win-x64/ScyllaConfigurator.exe

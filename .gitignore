@@ -1,0 +1,13 @@
+# Build output and local-only release binaries
+app/bin/
+app/obj/
+/ScyllaConfigurator.exe
+release/
+dist/
+*.user
+*.suo
+
+# Local QMK clones and generated build trees
+.qmk-local/
+.build/
+.codex-remote-attachments/
